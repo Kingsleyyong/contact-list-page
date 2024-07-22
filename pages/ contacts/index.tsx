@@ -46,6 +46,7 @@ const ContactsPage = () => {
 
       useEffect(() => {
             setIsLoading(true)
+            router.push(`/?page=${currentPage}`)
             fetching(currentPage)
       }, [])
 

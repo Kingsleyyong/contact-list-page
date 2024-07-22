@@ -136,10 +136,6 @@ const TableComponent = ({
                                                       <span
                                                             className={`${currentPage === number && 'text-xl font-extrabold'} m-1`}
                                                             key={number}
-                                                            // disabled={
-                                                            //       currentPage ===
-                                                            //       number
-                                                            // }
                                                       >
                                                             {number}
                                                       </span>
