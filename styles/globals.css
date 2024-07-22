@@ -40,7 +40,7 @@ body {
       }
 
       input {
-            @apply rounded-md border-gray-700 bg-gray-400/50 p-3 dark:bg-gray-500;
+            @apply rounded-md bg-gray-400/50 p-3 dark:bg-gray-500;
       }
 
       table {
@@ -59,6 +59,10 @@ body {
             tbody {
                   tr {
                         @apply hover:bg-gray-300/50 dark:hover:bg-gray-500/30;
+
+                        button {
+                              @apply rounded-md bg-gray-400/50 p-3 hover:bg-gray-500 active:bg-gray-500 disabled:bg-opacity-20 dark:bg-gray-500;
+                        }
                   }
             }
       }

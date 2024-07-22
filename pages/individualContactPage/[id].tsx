@@ -63,12 +63,13 @@ const IndividualContactPage = () => {
                                     <div className='flex h-1/3 grow-0 items-center bg-gray-400/70 p-4 dark:bg-gray-500'>
                                           <div
                                                 className={
-                                                      'ml-32 flex size-40 items-center justify-center rounded-full'
+                                                      'ml-32 flex size-40 items-center justify-center'
                                                 }
                                           >
                                                 {isImageLoading && <Loading />}
                                                 <Image
-                                                      priority={false}
+                                                      className={'rounded-full'}
+                                                      priority
                                                       src={characterData?.image}
                                                       alt={`${characterData?.name} Image`}
                                                       width={400}

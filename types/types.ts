@@ -29,6 +29,11 @@ export interface ExpisodeType {
       created: string
 }
 
+export interface PaginationType {
+      currentPage: number
+      totalPages: number
+}
+
 export enum CHARACTER_TABLE_HEADER {
       Name = 'name',
       Status = 'status',

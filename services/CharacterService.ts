@@ -1,5 +1,3 @@
-const MAX_LIMIT = 20
-
 const CharacterService = {
       getCharacterById: async (id: number) => {
             try {
@@ -25,10 +23,10 @@ const CharacterService = {
                   throw error
             }
       },
-      getAllCharacters: async () => {
+      getPageCharacters: async (page: number) => {
             try {
                   const response = await fetch(
-                        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/character?_limit=${MAX_LIMIT}`
+                        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/character/?page=${page}`
                   )
 
                   return await response.json()

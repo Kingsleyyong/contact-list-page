@@ -3,18 +3,27 @@ import SEO from '@/components/SEO'
 import TableComponent from '@/components/TableComponents'
 import { useCharacterFilterTables } from '@/hooks/useCharacterFilterTables'
 import CharacterService from '@/services/CharacterService'
-import { CharacterTypes } from '@/types/types'
+import { CharacterTypes, PaginationType } from '@/types/types'
 import debounce from '@/utils/debounce'
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
+import React, {
+      Fragment,
+      useCallback,
+      useEffect,
+      useRef,
+      useState,
+} from 'react'
 
 const ContactsPage = () => {
+      const router = useRouter()
+      const currentPage = parseInt((router.query.page as string) ?? '1', 10)
       const [isLoading, setIsLoading] = useState(false)
       const [character, setCharacter] = useState<CharacterTypes[]>([])
-      const [paginationInfo, setPaginationInfo] = useState([])
+      const [paginationInfo, setPaginationInfo] = useState<PaginationType>()
 
       const { tableHeader, tableRows } = useCharacterFilterTables(character)
 
-      const fetching = debounce(async (searchInput?: string) => {
+      const fetching = debounce(async (page: number, searchInput?: string) => {
             try {
                   let data
                   if (searchInput) {
@@ -22,9 +31,12 @@ const ContactsPage = () => {
                               await CharacterService.getCharacterByName(
                                     searchInput
                               )
-                  } else data = await CharacterService.getAllCharacters()
+                  } else data = await CharacterService.getPageCharacters(page)
 
-                  setPaginationInfo(data.info)
+                  setPaginationInfo({
+                        currentPage: page,
+                        totalPages: data.info.pages,
+                  })
                   setCharacter(data.results)
                   setIsLoading(false)
             } catch (error) {
@@ -34,7 +46,7 @@ const ContactsPage = () => {
 
       useEffect(() => {
             setIsLoading(true)
-            fetching()
+            fetching(currentPage)
       }, [])
 
       const searchInputChange = (
@@ -42,8 +54,25 @@ const ContactsPage = () => {
       ) => {
             setIsLoading(true)
             const currentInput = event.target.value
-            fetching(currentInput)
+            fetching(currentPage, currentInput)
       }
+
+      const paginationCallback = useCallback(
+            (right: boolean) => {
+                  if (paginationInfo?.totalPages === undefined) return
+
+                  if (right && currentPage <= paginationInfo.totalPages) {
+                        setIsLoading(true)
+                        router.push(`/?page=${currentPage + 1}`)
+                        fetching(currentPage + 1)
+                  } else if (currentPage !== 1) {
+                        setIsLoading(true)
+                        router.push(`/?page=${currentPage - 1}`)
+                        fetching(currentPage - 1)
+                  }
+            },
+            [currentPage, fetching, paginationInfo?.totalPages, router]
+      )
 
       return (
             <Fragment>
@@ -71,6 +100,9 @@ const ContactsPage = () => {
                               <TableComponent
                                     tableHeaders={tableHeader}
                                     tableBodyData={tableRows}
+                                    currentPage={paginationInfo?.currentPage}
+                                    totalPages={paginationInfo?.totalPages}
+                                    paginationCallback={paginationCallback}
                               />
                         )}
                   </div>
