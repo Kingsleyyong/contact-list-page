@@ -1,4 +1,9 @@
-import { CHARACTER_TABLE_HEADER, EPISODE_TABLE_HEADER } from '@/types/types'
+import {
+      CHARACTER_TABLE_HEADER,
+      CharacterTypes,
+      EPISODE_TABLE_HEADER,
+} from '@/types/types'
+import { useRouter } from 'next/router'
 
 interface TableComponentProps {
       tableHeaders: string[]
@@ -15,6 +20,10 @@ const TableComponent = ({
       // startIndex,
       // endIndex,
 }: TableComponentProps) => {
+      const router = useRouter()
+      const onRowClick = (id: number) => {
+            router.push(`/individualContactPage/${id}`)
+      }
       return (
             <table className={'mx-5 w-[97%] grow'}>
                   <thead>
@@ -44,7 +53,21 @@ const TableComponent = ({
                               //             index < endIndex
                               // )
                               .map((row, rowIndex) => (
-                                    <tr key={`DataRow ${rowIndex}`}>
+                                    <tr
+                                          key={`DataRow ${rowIndex}`}
+                                          onClick={() => {
+                                                if (
+                                                      !Object.keys(
+                                                            row
+                                                      ).includes('id')
+                                                )
+                                                      return
+
+                                                onRowClick(
+                                                      (row as CharacterTypes).id
+                                                )
+                                          }}
+                                    >
                                           {tableHeaders.map((key) => {
                                                 const enumKey = Object.keys(
                                                       CHARACTER_TABLE_HEADER

@@ -9,9 +9,6 @@ export const useEpisodeFilterTables = (episode: ExpisodeType[]) => {
 
       useEffect(() => {
             if (!episode || episode.length === 0) return
-
-            console.log(episode)
-
             if (
                   Object.keys(EPISODE_TABLE_HEADER).every((key) =>
                         episode.every((object) =>
@@ -28,9 +25,7 @@ export const useEpisodeFilterTables = (episode: ExpisodeType[]) => {
       }, [episode])
 
       useEffect(() => {
-            if (tableHeader.length === 0) return
-
-            console.log(tableHeader)
+            if (tableHeader.length === 0 || !episode) return
             const rowDatas = episode.reduce(
                   (
                         accumulator: Record<EPISODE_TABLE_HEADER, string>[],
@@ -43,8 +38,6 @@ export const useEpisodeFilterTables = (episode: ExpisodeType[]) => {
                                                 EPISODE_TABLE_HEADER[
                                                       key as keyof typeof EPISODE_TABLE_HEADER
                                                 ]
-
-                                          console.log(enumValue, currRow)
 
                                           rowAccumulator[enumValue] =
                                                 currRow[enumValue]

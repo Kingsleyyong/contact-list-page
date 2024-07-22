@@ -25,7 +25,7 @@ export const useCharacterFilterTables = (character: CharacterTypes[]) => {
       }, [character])
 
       useEffect(() => {
-            if (tableHeader.length === 0) return
+            if (tableHeader.length === 0 || !character) return
             const rowDatas = character.reduce(
                   (
                         accumulator: Record<CHARACTER_TABLE_HEADER, string>[],
@@ -42,7 +42,10 @@ export const useCharacterFilterTables = (character: CharacterTypes[]) => {
                                           rowAccumulator[enumValue] =
                                                 currRow[enumValue]
 
-                                          return rowAccumulator
+                                          return {
+                                                ...rowAccumulator,
+                                                id: currRow.id,
+                                          }
                                     },
                                     {} as Record<CHARACTER_TABLE_HEADER, string>
                               )
