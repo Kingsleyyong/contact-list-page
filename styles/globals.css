@@ -25,3 +25,37 @@ body {
             )
             rgb(var(--background-start-rgb));
 }
+
+@layer base {
+      h1 {
+            @apply p-3 text-3xl font-bold;
+      }
+
+      hr {
+            @apply my-5 border-black dark:border-white;
+      }
+
+      input {
+            @apply rounded-md border-gray-700 bg-gray-300/90 p-3 dark:bg-gray-500;
+      }
+
+      table {
+            thead {
+                  @apply border-b-2 border-black text-2xl font-bold dark:border-white;
+            }
+
+            tr {
+                  @apply my-2 border-b border-gray-500/50;
+            }
+
+            td {
+                  @apply text-center;
+            }
+
+            tbody {
+                  tr {
+                        @apply hover:bg-gray-500/30;
+                  }
+            }
+      }
+}

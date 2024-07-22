@@ -28,6 +28,6 @@
             "**/*.tsx",
             ".next/types/**/*.ts",
             "pages/contact/index.tsx"
-      ],
+, "components/TableComponents.tsx"      ],
       "exclude": ["node_modules"]
 }
