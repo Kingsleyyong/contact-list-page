@@ -1,36 +1,42 @@
-import TableComponent from '@/components/TableComponents'
-import { CharacterTypes, TABLE_HEADER } from '@/types/types'
+import { CharacterTypes, CHARACTER_TABLE_HEADER } from '@/types/types'
 import { useEffect, useState } from 'react'
 
-export const useFilterTables = (character: CharacterTypes[]) => {
+export const useCharacterFilterTables = (character: CharacterTypes[]) => {
       const [tableHeader, setTableHeader] = useState<string[]>([])
       const [tableRows, setTableRows] = useState<
-            Record<TABLE_HEADER, string>[]
+            Record<CHARACTER_TABLE_HEADER, string>[]
       >([])
 
       useEffect(() => {
+            if (!character || character.length === 0) return
             if (
-                  Object.keys(TABLE_HEADER).every((key) =>
+                  Object.keys(CHARACTER_TABLE_HEADER).every((key) =>
                         character.every((object) =>
-                              Object.keys(object).includes(key)
+                              Object.keys(object).includes(
+                                    CHARACTER_TABLE_HEADER[
+                                          key as keyof typeof CHARACTER_TABLE_HEADER
+                                    ]
+                              )
                         )
                   )
             ) {
-                  setTableHeader(Object.keys(TABLE_HEADER))
+                  setTableHeader(Object.keys(CHARACTER_TABLE_HEADER))
             }
       }, [character])
 
       useEffect(() => {
             if (tableHeader.length === 0) return
-
             const rowDatas = character.reduce(
-                  (accumulator: Record<TABLE_HEADER, string>[], currRow) => {
-                        const row: Record<TABLE_HEADER, string> =
+                  (
+                        accumulator: Record<CHARACTER_TABLE_HEADER, string>[],
+                        currRow
+                  ) => {
+                        const row: Record<CHARACTER_TABLE_HEADER, string> =
                               tableHeader.reduce(
                                     (rowAccumulator, key) => {
                                           const enumValue =
-                                                TABLE_HEADER[
-                                                      key as keyof typeof TABLE_HEADER
+                                                CHARACTER_TABLE_HEADER[
+                                                      key as keyof typeof CHARACTER_TABLE_HEADER
                                                 ]
 
                                           rowAccumulator[enumValue] =
@@ -38,7 +44,7 @@ export const useFilterTables = (character: CharacterTypes[]) => {
 
                                           return rowAccumulator
                                     },
-                                    {} as Record<TABLE_HEADER, string>
+                                    {} as Record<CHARACTER_TABLE_HEADER, string>
                               )
 
                         accumulator.push(row)

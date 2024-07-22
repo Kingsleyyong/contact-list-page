@@ -1,5 +1,5 @@
 import TableComponent from '@/components/TableComponents'
-import { useFilterTables } from '@/hooks/useFilterTables'
+import { useCharacterFilterTables } from '@/hooks/useCharacterFilterTables'
 import CharacterService from '@/services/CharacterService'
 import { CharacterTypes } from '@/types/types'
 import React, { useEffect, useRef, useState } from 'react'
@@ -10,12 +10,12 @@ const ContactsPage = () => {
       const [character, setCharacter] = useState<CharacterTypes[]>([])
       const [paginationInfo, setPaginationInfo] = useState([])
 
-      const { tableHeader, tableRows } = useFilterTables(character)
+      const { tableHeader, tableRows } = useCharacterFilterTables(character)
 
       useEffect(() => {
             setIsLoading(true)
 
-            const fetch = async () => {
+            const fetching = async () => {
                   try {
                         const data = await CharacterService.getAllCharacters()
                         setPaginationInfo(data.info)
@@ -26,7 +26,7 @@ const ContactsPage = () => {
                   }
             }
 
-            fetch()
+            fetching()
       }, [])
 
       useEffect(() => {

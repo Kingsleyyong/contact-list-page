@@ -1,8 +1,10 @@
-import { TABLE_HEADER } from '@/types/types'
+import { CHARACTER_TABLE_HEADER, EPISODE_TABLE_HEADER } from '@/types/types'
 
 interface TableComponentProps {
       tableHeaders: string[]
-      tableBodyData: Record<TABLE_HEADER, string>[]
+      tableBodyData:
+            | Record<CHARACTER_TABLE_HEADER, string>[]
+            | Record<EPISODE_TABLE_HEADER, string>[]
       // startIndex: number
       // endIndex: number
 }
@@ -44,12 +46,19 @@ const TableComponent = ({
                               .map((row, rowIndex) => (
                                     <tr key={`DataRow ${rowIndex}`}>
                                           {tableHeaders.map((key) => {
-                                                console.log(key, row)
+                                                const enumKey = Object.keys(
+                                                      CHARACTER_TABLE_HEADER
+                                                ).includes(key)
+                                                      ? CHARACTER_TABLE_HEADER[
+                                                              key as keyof typeof CHARACTER_TABLE_HEADER
+                                                        ]
+                                                      : EPISODE_TABLE_HEADER[
+                                                              key as keyof typeof EPISODE_TABLE_HEADER
+                                                        ]
+
                                                 const cellData =
                                                       row[
-                                                            TABLE_HEADER[
-                                                                  key as keyof typeof TABLE_HEADER
-                                                            ]
+                                                            enumKey as keyof typeof row
                                                       ]
 
                                                 return (

@@ -31,6 +31,10 @@ body {
             @apply p-3 text-3xl font-bold;
       }
 
+      h2 {
+            @apply p-2 text-xl font-medium;
+      }
+
       hr {
             @apply my-5 border-black dark:border-white;
       }

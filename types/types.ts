@@ -19,9 +19,25 @@ export interface CharacterTypes {
       created: string
 }
 
-export enum TABLE_HEADER {
+export interface ExpisodeType {
+      id: number
+      name: string
+      air_date: string
+      episode: string
+      characters: string[]
+      url: string
+      created: string
+}
+
+export enum CHARACTER_TABLE_HEADER {
       Name = 'name',
       Status = 'status',
       Species = 'species',
       Gender = 'gender',
+}
+
+export enum EPISODE_TABLE_HEADER {
+      Name = 'name',
+      Air_Date = 'air_date',
+      Episode = 'episode',
 }
