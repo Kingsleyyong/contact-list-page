@@ -1,9 +1,11 @@
+import Loading from '@/components/Loading'
+import SEO from '@/components/SEO'
 import TableComponent from '@/components/TableComponents'
 import { useCharacterFilterTables } from '@/hooks/useCharacterFilterTables'
 import CharacterService from '@/services/CharacterService'
 import { CharacterTypes } from '@/types/types'
 import debounce from '@/utils/debounce'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 
 const ContactsPage = () => {
       const [isLoading, setIsLoading] = useState(false)
@@ -44,24 +46,35 @@ const ContactsPage = () => {
       }
 
       return (
-            <div className={'min-w-full'}>
-                  <h1>Contacts</h1>
-                  <input
-                        type={'search'}
-                        className={'ml-3 h-10 w-52'}
-                        placeholder={'Search'}
-                        onChange={searchInputChange}
+            <Fragment>
+                  <SEO
+                        title={'Contact List - SleekFlow'}
+                        description={
+                              'View our list of contacts with their related information.'
+                        }
                   />
 
-                  <hr />
-
-                  {!isLoading && (
-                        <TableComponent
-                              tableHeaders={tableHeader}
-                              tableBodyData={tableRows}
+                  <div className={'min-w-full'}>
+                        <h1>Contacts</h1>
+                        <input
+                              type={'search'}
+                              className={'ml-3 h-10 w-52'}
+                              placeholder={'Search'}
+                              onChange={searchInputChange}
                         />
-                  )}
-            </div>
+
+                        <hr />
+
+                        {isLoading && <Loading />}
+
+                        {!isLoading && (
+                              <TableComponent
+                                    tableHeaders={tableHeader}
+                                    tableBodyData={tableRows}
+                              />
+                        )}
+                  </div>
+            </Fragment>
       )
 }
 
